@@ -1,3 +1,5 @@
+"use client";
+
 import { RegisterInput, RegisterInputSchema } from "@/schemas/user";
 import { useRegister } from "./useRegister";
 import { useForm } from "react-hook-form";
@@ -20,7 +22,7 @@ export const RegisterForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 flex flex-col">
       <input {...register("username")} placeholder="Username" />
       {errors.username && <p>{errors.username.message}</p>}
 
