@@ -1,3 +1,5 @@
+"use client";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { LoginInput, LoginInputSchema } from "@/schemas/user";
@@ -20,7 +22,10 @@ export const LoginForm = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 items-center flex flex-col"
+    >
       <input {...register("usernameOrEmail")} placeholder="Username or Email" />
       {errors.usernameOrEmail && <p>{errors.usernameOrEmail.message}</p>}
       <input type="password" {...register("password")} placeholder="Password" />
