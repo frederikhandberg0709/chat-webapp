@@ -1,26 +1,24 @@
+import { UserDTO } from "@/types/user";
 import { Client } from "@stomp/stompjs";
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
 
 export interface DirectChatMessage {
   id: number;
-  content: string;
   timestamp: string;
-  sender: {
-    id: number;
-    username: string;
-    // check dto in backend to see which properties are needed
-  };
-  receiver: {
-    id: number;
-    username: string;
-  };
+  sender: UserDTO;
+  receiver: UserDTO | null;
   directChatId: number;
+  content: string;
+  readBy: UserDTO[];
+  createdAt: string;
+  updatedAt: string;
+  readByCurrentUser: boolean;
 }
 
 export interface DirectChatMessageRequest {
+  receiverId?: number;
   directChatId?: number;
-  receiverId: number;
   content: string;
 }
 
@@ -31,6 +29,8 @@ interface UseDirectChatWebSocketProps {
 }
 
 export const useDirectChatWebSocket = ({
+  userId,
+  onMessageReceived,
   onError,
 }: UseDirectChatWebSocketProps) => {
   const clientRef = useRef<Client | null>(null);
@@ -137,6 +137,22 @@ export const useDirectChatWebSocket = ({
     },
     [onError],
   );
+
+  useEffect(() => {
+    connect();
+
+    return () => {
+      disconnect();
+    };
+  }, [connect, disconnect]);
+
+  useEffect(() => {
+    return () => {
+      if (clientRef.current) {
+        clientRef.current.deactivate();
+      }
+    };
+  }, []);
 
   return {
     isConnected,
