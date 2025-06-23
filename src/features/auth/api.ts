@@ -1,7 +1,8 @@
 import api from "@/lib/axios";
 import { tokenStorage } from "@/lib/tokenStorage";
 import { LoginInput, RegisterInput } from "@/schemas/user";
-import { AuthResponse, User } from "@/types/user";
+import { AuthResponse } from "@/types/auth";
+import { User } from "@/types/user";
 
 export const registerUser = async (input: RegisterInput): Promise<User> => {
   const res = await api.post<AuthResponse>("/auth/register", input);
