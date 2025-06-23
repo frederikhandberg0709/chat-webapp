@@ -1,9 +1,7 @@
-export interface UserDTO {
-  id: number;
-  username: string;
-  firstName: string;
-  lastName: string;
-  email: string;
+export interface AuthResponse {
+  accessToken: string;
+  refreshToken: string;
+  user: User;
 }
 
 export interface User {

@@ -1,4 +1,4 @@
-import { UserDTO } from "@/types/user";
+import { User } from "@/types/user";
 import { Client } from "@stomp/stompjs";
 import { useCallback, useEffect, useRef, useState } from "react";
 import SockJS from "sockjs-client";
@@ -6,11 +6,11 @@ import SockJS from "sockjs-client";
 export interface DirectChatMessage {
   id: number;
   timestamp: string;
-  sender: UserDTO;
-  receiver: UserDTO | null;
+  sender: User;
+  receiver: User | null;
   directChatId: number;
   content: string;
-  readBy: UserDTO[];
+  readBy: User[];
   createdAt: string;
   updatedAt: string;
   readByCurrentUser: boolean;
