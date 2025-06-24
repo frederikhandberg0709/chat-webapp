@@ -1,7 +1,32 @@
+"use client";
+
+import { useAuth } from "@/features/auth/AuthContext";
 import { LoginForm } from "@/features/auth/LoginForm";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function LoginPage() {
+  const { isAuthenticated, isTokenAuthenticated, isLoading } = useAuth();
+  const router = useRouter();
+
+  const shouldRedirect = isTokenAuthenticated || isAuthenticated;
+
+  useEffect(() => {
+    if (shouldRedirect) {
+      console.log("User is authenticated, redirecting from login page");
+      router.replace("/");
+    }
+  }, [shouldRedirect, router]);
+
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (shouldRedirect) {
+    return <div>Redirecting...</div>;
+  }
+
   return (
     <div className="mx-auto">
       <h1 className="text-3xl font-bold text-center">Login</h1>
